@@ -3,8 +3,24 @@ import numpy as np
 
 # Funcion derivada para el pendulo simple
 
-def simple(y,g,l):
+def simple(y, **kwargs):
 
+    l = 1.
+
+    g = 1.
+    
+    for key in kwargs:
+
+        if key == 'l':
+
+            l = kwargs[key]
+
+        elif key == 'g':
+            
+            g = kwargs[key]
+
+            
+            
     yp = np.zeros(2)
 
     yp[0] = y[1]
@@ -16,8 +32,27 @@ def simple(y,g,l):
     return yp
 
 
-def simplePeriod(theta, l = 1., g = 1.):
 
+def simplePeriod(theta, **kwargs):
+
+
+    l = 1.
+
+    g = 1.
+    
+    for key in kwargs:
+
+        if key == 'l':
+
+            l = kwargs[key]
+
+        elif key == 'g':
+            
+            g = kwargs[key]
+
+
+            
+    
     acum = 0.
 
     for n in range(100):

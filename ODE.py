@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def theta( myfunc, y0, h, nt, th = 0, g = 1., l = 1. ):
+def theta( myfunc, y0, h, nt, **kwargs ):
 
     """
     Resuelve la ode definida por myfunc (f') usando el metodo theta.
@@ -19,6 +19,18 @@ def theta( myfunc, y0, h, nt, th = 0, g = 1., l = 1. ):
     y[0] = y0
 
 
+    th = 0.
+
+    for key in kwargs:
+
+        if key == 'th':
+
+            th = kwargs[key]
+
+
+    
+
+    
     
     # Explicit Euler
 
@@ -26,7 +38,7 @@ def theta( myfunc, y0, h, nt, th = 0, g = 1., l = 1. ):
 
         for i in range(nt):
 
-            y[i+1] = y[i] + h * myfunc(y[i],g,l)
+            y[i+1] = y[i] + h * myfunc(y[i], **kwargs)
 
 
 
@@ -52,7 +64,7 @@ def theta( myfunc, y0, h, nt, th = 0, g = 1., l = 1. ):
             
             for k in range(30):
                             
-                y[i+1] = y[i]   +   h * (1-th) * myfunc(y[i],g,l)   +   h * th * myfunc(y[i+1],g,l)
+                y[i+1] = y[i]   +   h * (1-th) * myfunc(y[i], **kwargs)   +   h * th * myfunc(y[i+1], **kwargs)
             
         
 
@@ -66,7 +78,7 @@ def theta( myfunc, y0, h, nt, th = 0, g = 1., l = 1. ):
     
 
 
-def RK4( myfunc, y0, h, nt, g = 1., l = 1. ):
+def RK4( myfunc, y0, h, nt, **kwargs ):
 
 
     """
@@ -100,13 +112,13 @@ def RK4( myfunc, y0, h, nt, g = 1., l = 1. ):
     
     for i in range(nt):
 
-        k1 = h * myfunc( y[i], g, l )
+        k1 = h * myfunc( y[i], **kwargs )
 
-        k2 = h * myfunc( y[i] + 0.5 * k1, g, l )
+        k2 = h * myfunc( y[i] + 0.5 * k1, **kwargs )
 
-        k3 = h * myfunc( y[i] + 0.5 * k2, g, l )
+        k3 = h * myfunc( y[i] + 0.5 * k2, **kwargs )
 
-        k4 = h * myfunc( y[i] + k3, g, l )
+        k4 = h * myfunc( y[i] + k3, **kwargs )
 
         y[i+1] = y[i]   +   ( k1 + 2.*k2 + 2.*k3 + k4 ) / 6.
 

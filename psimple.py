@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     tf = pd.simplePeriod( y0[0] )
 
-    orden = True
+    orden = False
 
 
 
