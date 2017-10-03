@@ -217,97 +217,105 @@ if __name__ == "__main__":
 
         # h = tf/nt
 
-
-
         # aList = [ np.pi * 0.5, 1.00001 * np.pi * 0.5, 0.99999 * np.pi * 0.5 ]
 
-        # fig = plt.figure()
-        
-        # ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2.5, 2.5), ylim=(-2, 1))
 
-        # plt.xticks([])
+        # x1 = np.zeros((nt+1,len(aList)))
 
-        # plt.yticks([])
+        # x2 = np.zeros((nt+1,len(aList)))
 
-        # # line, = ax.plot([], [], 'o-', lw=1, markersize = 10)
-        
-        # time_template = 'time = %.1f'
+        # y1 = np.zeros((nt+1,len(aList)))
 
-        # time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
-                
-
-        # x1, x2, y1, y2 = [], [], [], []
-
-        # lines = []
+        # y2 = np.zeros((nt+1,len(aList)))
 
         
-        
-        # for a in aList:
+        # for i,a in enumerate(aList):
 
         #     y0[1] = a
 
         #     y = ODE.RK4( pd.double, y0, h, nt ) 
 
-        #     x1.append( np.sin(y[:,0]) )
+        #     x1[:,i] =  np.sin(y[:,0]) 
 
-        #     y1.append( -np.cos(y[:,0]) )
+        #     y1[:,i] = -np.cos(y[:,0]) 
 
-        #     x2.append( np.sin(y[:,1]) + x1 )
-
-        #     y2.append( -np.cos(y[:,1]) + y1 )
+        #     x2[:,i] =  np.sin(y[:,1]) + x1[:,i]
             
-        #     lines.append( ax.plot([], [], 'o-', lw=1, markersize = 10)[0] )
+        #     y2[:,i] = -np.cos(y[:,1]) + y1[:,i]
+
+
+
 
             
+        
+        # fig = plt.figure()
+
+        # time_template = 'time = %.1f'
+
+        # ax = fig.add_subplot(111, autoscale_on=True, xlim=(-2.5, 2.5), ylim=(-2, 1))
+        
+        # time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
+
+       
+        # lines = []
+
+        # for p in range( len(aList) ):
             
-        # # Frame initialization    
+        #     pp, = ax.plot([], [], 'o-', lw=1, markersize = 10)
+            
+        #     lines.append( pp )
+
+
+        # plt.xticks([])
+
+        # plt.yticks([])
+            
 
         # def init():
 
         #     for line in lines:
+
+        #         line.set_data([],[])
+
+        #     return lines
             
-        #         line.set_data([], [])
-            
-        #     time_text.set_text('')
 
-        #     return lines, time_text
-
-
-        
-        # # Animation function
         
         # def animate(i):
 
-        #     # time_text.set_text(time_template%(i*h))
-            
         #     for lnum, line in enumerate(lines):
+                
+        #         thisx = [0, x1[i][lnum], x2[i][lnum]]
 
-        #         thisx = [0, x1[lnum][i], x2[lnum][i]]
-            
-        #         thisy = [0, y1[lnum][i], y2[lnum][i]]
+        #         thisy = [0, y1[i][lnum], y2[i][lnum]]
 
         #         line.set_data(thisx, thisy)
-
                 
+
+        #     time_text.set_text(time_template%(i*h))
+
+            
         #     return lines, time_text
+
+
+        
+
+        # ani = animation.FuncAnimation(fig, animate, np.arange(1, nt+1), interval=25, blit=True, init_func=init)
 
 
 
         
-        # ani = animation.FuncAnimation(fig, animate, np.arange(1, nt),
-        #                                   interval=25, blit=True, init_func=init)
-
-
-
-        # #     #ani.save('double_pendulum.mp4', fps=15)
-
-            
         # plt.show()
 
+        
+                
 
 
 
 
+
+
+        
 
         tf = 10 * np.pi
         
@@ -321,16 +329,29 @@ if __name__ == "__main__":
 
         fig = plt.figure()
         
-        ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2.5, 2.5), ylim=(-2, 1))
+        ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2.5, 2.5), ylim=(-2.5, 1))
 
         plt.xticks([])
 
         plt.yticks([])
+
+
+        def init():
+            line.set_data([], [])
+            time_text.set_text('')
+            return line, time_text
+
+        def animate(i):
+            thisx = [0, x1[i], x2[i]]
+            thisy = [0, y1[i], y2[i]]
+
+            line.set_data(thisx, thisy)
+            time_text.set_text(time_template%(i*h))
+            return line, time_text
         
 
-        y = ODE.RK4( pd.double, y0, h, nt )
         
-        
+        y = ODE.RK4( pd.double, y0, h, nt )                
 
         x1 = np.sin(y[:,0])
 
@@ -348,22 +369,12 @@ if __name__ == "__main__":
         time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
             
 
-        def init():
-            line.set_data([], [])
-            time_text.set_text('')
-            return line, time_text
-
-        def animate(i):
-            thisx = [0, x1[i], x2[i]]
-            thisy = [0, y1[i], y2[i]]
-
-            line.set_data(thisx, thisy)
-            time_text.set_text(time_template%(i*h))
-            return line, time_text
 
         
         ani = animation.FuncAnimation(fig, animate, np.arange(1, len(y)),
                                           interval=25, blit=True, init_func=init)
+
+
         
         plt.show()
 
