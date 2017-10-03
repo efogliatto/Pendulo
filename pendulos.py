@@ -119,3 +119,56 @@ def double(y, **kwargs):
     yp[3] = (  -l1 * y[2]**2 * np.sin(y[1]-y[0]) - g * np.sin(y[1]) - l1 * yp[2] * np.cos(y[1]-y[0])  )   /  l2
 
     return yp
+
+
+
+
+def dobleEnergia(y, **kwargs):
+
+    
+    l1 = 1.
+
+    l2 = 1.
+
+    m1 = 1.
+
+    m2 = 1.
+
+    g = 10.
+    
+    for key in kwargs:
+
+        if key == 'l1':
+
+            l1 = kwargs[key]
+
+        if key == 'l2':
+
+            l2 = kwargs[key]
+
+        if key == 'm1':
+
+            m1 = kwargs[key]
+
+        if key == 'm2':
+
+            m2 = kwargs[key]   
+
+        elif key == 'g':
+            
+            g = kwargs[key]
+
+
+    T = np.zeros(len(y))
+
+    V = np.zeros(len(y))
+            
+
+    for i,x in enumerate(y):
+    
+        T[i] = 0.5 * (m1+m2) * l1**2 * y[i][2]**2   +   0.5 * m2 * l2**2 * y[i][3]**2   +   m2 * l1 * l2 * y[i][2] * y[i][3] * np.cos(y[i][1]-y[i][0])
+
+        V[i] = -(m1 + m2) * g * l1 * np.cos(y[i][0]) - m2 * g * l2 * np.cos(y[i][1])
+
+
+    return T,V
