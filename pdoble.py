@@ -289,39 +289,35 @@ if __name__ == "__main__":
 
         
         tf = 10 * np.pi
-        
-        hList = np.logspace(-4, -1, 20)
 
-        ntList = np.zeros( len(hList) )
-
-        for i,h in enumerate(hList):
-
-            ntList[i] = int(tf/h)
-            
-            hList[i] = tf/ntList[i]
-
-        
+        ntList = ( np.logspace(3,5,20) ).astype(int)
 
         energyError = []
+        
             
-        for nt,h in zip(ntList, hList):
+        for nt in ntList:
             
         
-            y = ODE.RK4( pd.double, y0, h, int(nt) )
+            y = ODE.RK4( pd.double, y0, tf/int(nt), int(nt) )
 
-            T,V = pd.dobleEnergia(y)
+            T, V = pd.dobleEnergia(y)
 
             energyError.append( abs(T[-1] + V[-1]) )
         
 
-            
+
+        hList = tf/ntList
 
         plt.loglog(hList, energyError, label = 'RK-4')
 
-        plt.loglog(hList, 2*hList**4, label = r'O(h^4)', linestyle = '--', color = 'k')
+        plt.loglog(hList, energyError[0] * hList**4 / hList[0]**4, label = r'$O(h^4)$', linestyle = '--', color = 'k')
 
-        plt.loglog(hList, 2*hList**5, label = r'O(h^5)', linestyle = '-:', color = 'k')
+        plt.loglog(hList, energyError[0] * hList**5  / hList[0]**5, label = r'$O(h^5)$', linestyle = '-.', color = 'k')
 
-        plt.legend(loc='best')
+        plt.legend( loc='best' )
+
+        plt.xlabel('$h$')
+
+        plt.ylabel('$E(10\pi)-E(0)$')
 
         plt.show()
