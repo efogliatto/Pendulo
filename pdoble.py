@@ -25,11 +25,11 @@ if __name__ == "__main__":
 
     # Condiciones de simulacion
 
-    # mode = 'animation'
+    mode = 'animacion'
 
     # mode = 'caos'              
 
-    mode = 'energia'
+    # mode = 'energia'
 
     
 
@@ -206,12 +206,112 @@ if __name__ == "__main__":
 
 
 
-    elif mode == 'animation':
+    elif mode == 'animacion':
+
+
+        # tf = 10 * np.pi
+        
+        # h = 0.01
+
+        # nt = int(tf/h)
+
+        # h = tf/nt
+
+
+
+        # aList = [ np.pi * 0.5, 1.00001 * np.pi * 0.5, 0.99999 * np.pi * 0.5 ]
+
+        # fig = plt.figure()
+        
+        # ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2.5, 2.5), ylim=(-2, 1))
+
+        # plt.xticks([])
+
+        # plt.yticks([])
+
+        # # line, = ax.plot([], [], 'o-', lw=1, markersize = 10)
+        
+        # time_template = 'time = %.1f'
+
+        # time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
+                
+
+        # x1, x2, y1, y2 = [], [], [], []
+
+        # lines = []
+
+        
+        
+        # for a in aList:
+
+        #     y0[1] = a
+
+        #     y = ODE.RK4( pd.double, y0, h, nt ) 
+
+        #     x1.append( np.sin(y[:,0]) )
+
+        #     y1.append( -np.cos(y[:,0]) )
+
+        #     x2.append( np.sin(y[:,1]) + x1 )
+
+        #     y2.append( -np.cos(y[:,1]) + y1 )
+            
+        #     lines.append( ax.plot([], [], 'o-', lw=1, markersize = 10)[0] )
+
+            
+            
+        # # Frame initialization    
+
+        # def init():
+
+        #     for line in lines:
+            
+        #         line.set_data([], [])
+            
+        #     time_text.set_text('')
+
+        #     return lines, time_text
+
+
+        
+        # # Animation function
+        
+        # def animate(i):
+
+        #     # time_text.set_text(time_template%(i*h))
+            
+        #     for lnum, line in enumerate(lines):
+
+        #         thisx = [0, x1[lnum][i], x2[lnum][i]]
+            
+        #         thisy = [0, y1[lnum][i], y2[lnum][i]]
+
+        #         line.set_data(thisx, thisy)
+
+                
+        #     return lines, time_text
+
+
+
+        
+        # ani = animation.FuncAnimation(fig, animate, np.arange(1, nt),
+        #                                   interval=25, blit=True, init_func=init)
+
+
+
+        # #     #ani.save('double_pendulum.mp4', fps=15)
+
+            
+        # plt.show()
+
+
+
+
 
 
         tf = 10 * np.pi
         
-        h = 0.001
+        h = 0.01
 
         nt = int(tf/h)
 
@@ -219,65 +319,53 @@ if __name__ == "__main__":
 
 
 
-        aList = [ np.pi * 0.5, 1.00001 * np.pi * 0.5, 0.99999 * np.pi * 0.5 ]
-
         fig = plt.figure()
         
-        ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2, 2), ylim=(-2, 1))
+        ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2.5, 2.5), ylim=(-2, 1))
+
+        plt.xticks([])
+
+        plt.yticks([])
         
 
-        for a in aList:
-
-            y0[1] = a
-
-            y = ODE.RK4( pd.double, y0, h, nt )
+        y = ODE.RK4( pd.double, y0, h, nt )
         
         
 
-            x1 = np.sin(y[:,0])
+        x1 = np.sin(y[:,0])
 
-            y1 = -np.cos(y[:,0])
+        y1 = -np.cos(y[:,0])
 
-            x2 = np.sin(y[:,1]) + x1
+        x2 = np.sin(y[:,1]) + x1
 
-            y2 = -np.cos(y[:,1]) + y1
+        y2 = -np.cos(y[:,1]) + y1
 
+                
+        line, = ax.plot([], [], 'o-', lw=1, markersize = 10)
         
-            # fig = plt.figure()
-        
-            # ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2, 2), ylim=(-2, 1))
+        time_template = 'time = %.1f'
 
-            # ax.grid()
-        
-            line, = ax.plot([], [], 'o-', lw=1, markersize = 10)
-        
-            time_template = 'time = %.1fs'
-
-            time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
-
-            def init():
-                line.set_data([], [])
-                time_text.set_text('')
-                return line, time_text
-
-            def animate(i):
-                thisx = [0, x1[i], x2[i]]
-                thisy = [0, y1[i], y2[i]]
-
-                line.set_data(thisx, thisy)
-                time_text.set_text(time_template%(i*h))
-                return line, time_text
-
-        
-            ani = animation.FuncAnimation(fig, animate, np.arange(1, len(y)),
-                                          interval=25, blit=True, init_func=init)
-
-
-            #ani.save('double_pendulum.mp4', fps=15)
-
+        time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
             
-        plt.show()
 
+        def init():
+            line.set_data([], [])
+            time_text.set_text('')
+            return line, time_text
+
+        def animate(i):
+            thisx = [0, x1[i], x2[i]]
+            thisy = [0, y1[i], y2[i]]
+
+            line.set_data(thisx, thisy)
+            time_text.set_text(time_template%(i*h))
+            return line, time_text
+
+        
+        ani = animation.FuncAnimation(fig, animate, np.arange(1, len(y)),
+                                          interval=25, blit=True, init_func=init)
+        
+        plt.show()
 
 
 
