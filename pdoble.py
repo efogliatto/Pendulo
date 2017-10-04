@@ -25,11 +25,11 @@ if __name__ == "__main__":
 
     # Condiciones de simulacion
 
-    mode = 'animacion'
+    # mode = 'animacion'
 
     # mode = 'caos'              
 
-    # mode = 'energia'
+    mode = 'energia'
 
     
 
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 
         tf = 10 * np.pi
         
-        h = 0.01
+        h = 0.001
 
         nt = int(tf/h)
 
@@ -387,7 +387,7 @@ if __name__ == "__main__":
     elif mode == 'energia':
 
         
-        tf = 10 * np.pi
+        tf = 2. * np.pi
 
         ntList = ( np.logspace(3,5,20) ).astype(int)
 
