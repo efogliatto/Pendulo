@@ -25,11 +25,11 @@ if __name__ == "__main__":
 
     # Condiciones de simulacion
 
-    # mode = 'animacion'
+    mode = 'animacion'
 
     # mode = 'caos'              
 
-    mode = 'energia'
+    # mode = 'energia'
 
     
 
@@ -209,170 +209,182 @@ if __name__ == "__main__":
     elif mode == 'animacion':
 
 
-        # tf = 10 * np.pi
-        
-        # h = 0.01
-
-        # nt = int(tf/h)
-
-        # h = tf/nt
-
-        # aList = [ np.pi * 0.5, 1.00001 * np.pi * 0.5, 0.99999 * np.pi * 0.5 ]
-
-
-        # x1 = np.zeros((nt+1,len(aList)))
-
-        # x2 = np.zeros((nt+1,len(aList)))
-
-        # y1 = np.zeros((nt+1,len(aList)))
-
-        # y2 = np.zeros((nt+1,len(aList)))
-
-        
-        # for i,a in enumerate(aList):
-
-        #     y0[1] = a
-
-        #     y = ODE.RK4( pd.double, y0, h, nt ) 
-
-        #     x1[:,i] =  np.sin(y[:,0]) 
-
-        #     y1[:,i] = -np.cos(y[:,0]) 
-
-        #     x2[:,i] =  np.sin(y[:,1]) + x1[:,i]
-            
-        #     y2[:,i] = -np.cos(y[:,1]) + y1[:,i]
-
-
-
-
-            
-        
-        # fig = plt.figure()
-
-        # time_template = 'time = %.1f'
-
-        # ax = fig.add_subplot(111, autoscale_on=True, xlim=(-2.5, 2.5), ylim=(-2, 1))
-        
-        # time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
-
-       
-        # lines = []
-
-        # for p in range( len(aList) ):
-            
-        #     pp, = ax.plot([], [], 'o-', lw=1, markersize = 10)
-            
-        #     lines.append( pp )
-
-
-        # plt.xticks([])
-
-        # plt.yticks([])
-            
-
-        # def init():
-
-        #     for line in lines:
-
-        #         line.set_data([],[])
-
-        #     return lines
-            
-
-        
-        # def animate(i):
-
-        #     for lnum, line in enumerate(lines):
-                
-        #         thisx = [0, x1[i][lnum], x2[i][lnum]]
-
-        #         thisy = [0, y1[i][lnum], y2[i][lnum]]
-
-        #         line.set_data(thisx, thisy)
-                
-
-        #     time_text.set_text(time_template%(i*h))
-
-            
-        #     return lines, time_text
-
-
-        
-
-        # ani = animation.FuncAnimation(fig, animate, np.arange(1, nt+1), interval=25, blit=True, init_func=init)
-
-
-
-        
-        # plt.show()
-
-        
-                
-
-
-
-
-
-
-        
-
         tf = 10 * np.pi
         
-        h = 0.001
+        h = 0.01
 
         nt = int(tf/h)
 
         h = tf/nt
 
+        aList = [ np.pi * 0.5, 1.00001 * np.pi * 0.5, 0.99999 * np.pi * 0.5 ]
 
 
-        fig = plt.figure()
+        x1 = np.zeros((nt+1,len(aList)))
+
+        x2 = np.zeros((nt+1,len(aList)))
+
+        y1 = np.zeros((nt+1,len(aList)))
+
+        y2 = np.zeros((nt+1,len(aList)))
+
         
-        ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2.5, 2.5), ylim=(-2.5, 1))
+        for i,a in enumerate(aList):
+
+            y0[1] = a
+
+            y = ODE.RK4( pd.double, y0, h, nt ) 
+
+            x1[:,i] =  np.sin(y[:,0]) 
+
+            y1[:,i] = -np.cos(y[:,0]) 
+
+            x2[:,i] =  np.sin(y[:,1]) + x1[:,i]
+            
+            y2[:,i] = -np.cos(y[:,1]) + y1[:,i]
+
+
+
+
+            
+        
+
+        fig, ax = plt.subplots()
+
+        time_template = 'time = %.1f'
+        
+        ax.set_xlim(-2.5, 2.5)
+
+        ax.set_ylim(-2.5, 1)
+        
+        time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
+
+       
+
+
+        l1, = plt.plot([], [], 'o-', markersize = 10, animated=True)
+
+        l2, = plt.plot([], [], 'o-', markersize = 10, animated=True)
+
+        l3, = plt.plot([], [], 'o-', markersize = 10, animated=True)
+
+
 
         plt.xticks([])
 
         plt.yticks([])
+            
+
+            
 
 
-        def init():
-            line.set_data([], [])
-            time_text.set_text('')
-            return line, time_text
 
-        def animate(i):
-            thisx = [0, x1[i], x2[i]]
-            thisy = [0, y1[i], y2[i]]
+        def update(frame, line1, line2, line3):
 
-            line.set_data(thisx, thisy)
-            time_text.set_text(time_template%(i*h))
-            return line, time_text
+
+
+            thisx = [0, x1[int(frame)][0], x2[int(frame)][0]]
+
+            thisy = [0, y1[int(frame)][0], y2[int(frame)][0]]            
+    
+            line1.set_data(thisx, thisy)
+
+            
+            thisx = [0, x1[int(frame)][1], x2[int(frame)][1]]
+
+            thisy = [0, y1[int(frame)][1], y2[int(frame)][1]]            
+    
+            line2.set_data(thisx, thisy)
+            
+
+
+            thisx = [0, x1[int(frame)][2], x2[int(frame)][2]]
+
+            thisy = [0, y1[int(frame)][2], y2[int(frame)][2]]            
+    
+            line3.set_data(thisx, thisy)
+    
+
+            # time_text.set_text(time_template%(i*h))
+            
+            
+            return line1, line2, line3
+
+
+
+        
+        ani = animation.FuncAnimation(fig, update, np.arange(1,nt),fargs = (l1, l2, l3), interval=2,  blit=True)
+
+
+        
+        plt.show()
+
+        
+                
+
+
+
+
+
+
+        
+
+        # tf = 10 * np.pi
+        
+        # h = 0.001
+
+        # nt = int(tf/h)
+
+        # h = tf/nt
+
+
+
+        # fig = plt.figure()
+        
+        # ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2.5, 2.5), ylim=(-2.5, 1))
+
+        # plt.xticks([])
+
+        # plt.yticks([])
+
+
+        # def init():
+        #     line.set_data([], [])
+        #     time_text.set_text('')
+        #     return line, time_text
+
+        # def animate(i):
+        #     thisx = [0, x1[i], x2[i]]
+        #     thisy = [0, y1[i], y2[i]]
+
+        #     line.set_data(thisx, thisy)
+        #     time_text.set_text(time_template%(i*h))
+        #     return line, time_text
         
 
         
-        y = ODE.RK4( pd.double, y0, h, nt )                
+        # y = ODE.RK4( pd.double, y0, h, nt )                
 
-        x1 = np.sin(y[:,0])
+        # x1 = np.sin(y[:,0])
 
-        y1 = -np.cos(y[:,0])
+        # y1 = -np.cos(y[:,0])
 
-        x2 = np.sin(y[:,1]) + x1
+        # x2 = np.sin(y[:,1]) + x1
 
-        y2 = -np.cos(y[:,1]) + y1
+        # y2 = -np.cos(y[:,1]) + y1
 
                 
-        line, = ax.plot([], [], 'o-', lw=1, markersize = 10)
+        # line, = ax.plot([], [], 'o-', lw=1, markersize = 10)
         
-        time_template = 'time = %.1f'
+        # time_template = 'time = %.1f'
 
-        time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
+        # time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
             
 
 
         
-        ani = animation.FuncAnimation(fig, animate, np.arange(1, len(y)),
-                                          interval=2, blit=True, init_func=init)
+        # ani = animation.FuncAnimation(fig, animate, np.arange(1, len(y)),
+        #                                   interval=2, blit=True, init_func=init)
 
 
         
