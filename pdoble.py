@@ -319,7 +319,7 @@ if __name__ == "__main__":
 
         tf = 10 * np.pi
         
-        h = 0.01
+        h = 0.001
 
         nt = int(tf/h)
 
@@ -372,7 +372,7 @@ if __name__ == "__main__":
 
         
         ani = animation.FuncAnimation(fig, animate, np.arange(1, len(y)),
-                                          interval=25, blit=True, init_func=init)
+                                          interval=2, blit=True, init_func=init)
 
 
         
