@@ -251,7 +251,7 @@ if __name__ == "__main__":
 
         fig, ax = plt.subplots()
 
-        time_template = 'time = %.1f'
+        time_template = 'time = %.1f $\pi$'
         
         ax.set_xlim(-2.5, 2.5)
 
@@ -279,7 +279,7 @@ if __name__ == "__main__":
 
 
 
-        def update(frame, line1, line2, line3):
+        def update(frame, line1, line2, line3, ttext):
 
 
 
@@ -305,15 +305,15 @@ if __name__ == "__main__":
             line3.set_data(thisx, thisy)
     
 
-            # time_text.set_text(time_template%(i*h))
+            ttext.set_text(time_template%(frame*h/np.pi))
             
             
-            return line1, line2, line3
+            return line1, line2, line3, ttext
 
 
 
         
-        ani = animation.FuncAnimation(fig, update, np.arange(1,nt),fargs = (l1, l2, l3), interval=2,  blit=True)
+        ani = animation.FuncAnimation(fig, update, np.arange(1,nt),fargs = (l1, l2, l3, time_text), interval=10,  blit=True)
 
 
         
