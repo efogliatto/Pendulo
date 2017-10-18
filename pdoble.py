@@ -25,9 +25,9 @@ if __name__ == "__main__":
 
     # Condiciones de simulacion
 
-    mode = 'simple'
+    # mode = 'simple'
     
-    # mode = 'animacion'
+    mode = 'animacion'
 
     # mode = 'caos'              
 
@@ -321,76 +321,6 @@ if __name__ == "__main__":
         
         plt.show()
 
-        
-                
-
-
-
-
-
-
-        
-
-        # tf = 10 * np.pi
-        
-        # h = 0.001
-
-        # nt = int(tf/h)
-
-        # h = tf/nt
-
-
-
-        # fig = plt.figure()
-        
-        # ax = fig.add_subplot(111, autoscale_on=False, xlim=(-2.5, 2.5), ylim=(-2.5, 1))
-
-        # plt.xticks([])
-
-        # plt.yticks([])
-
-
-        # def init():
-        #     line.set_data([], [])
-        #     time_text.set_text('')
-        #     return line, time_text
-
-        # def animate(i):
-        #     thisx = [0, x1[i], x2[i]]
-        #     thisy = [0, y1[i], y2[i]]
-
-        #     line.set_data(thisx, thisy)
-        #     time_text.set_text(time_template%(i*h))
-        #     return line, time_text
-        
-
-        
-        # y = ODE.RK4( pd.double, y0, h, nt )                
-
-        # x1 = np.sin(y[:,0])
-
-        # y1 = -np.cos(y[:,0])
-
-        # x2 = np.sin(y[:,1]) + x1
-
-        # y2 = -np.cos(y[:,1]) + y1
-
-                
-        # line, = ax.plot([], [], 'o-', lw=1, markersize = 10)
-        
-        # time_template = 'time = %.1f'
-
-        # time_text = ax.text(0.05, 0.9, '', transform=ax.transAxes)
-            
-
-
-        
-        # ani = animation.FuncAnimation(fig, animate, np.arange(1, len(y)),
-        #                                   interval=2, blit=True, init_func=init)
-
-
-        
-        plt.show()
 
 
 

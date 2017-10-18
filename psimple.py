@@ -13,7 +13,7 @@ if __name__ == "__main__":
     
     y0 = np.zeros(2)
 
-    y0[0] = np.radians(2.5)
+    y0[0] = np.radians(10.)
 
 
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
         axs[0].plot( tarray, y[:,0], label = 'Runge-Kutta 4' )
 
         axs[1].plot( tarray, y[:,1], label = 'Runge-Kutta 4' )
-        
+
 
 
         # Grafico de theta
@@ -113,6 +113,11 @@ if __name__ == "__main__":
         tlist = ( np.logspace(1,4,20) ).astype(int)
 
 
+        # Energia inicial
+
+        E0 = 1-np.cos(y0[0])
+
+        
 
         # Array de error
 
@@ -130,37 +135,57 @@ if __name__ == "__main__":
         
             y = ODE.theta( pd.simple, y0, tf/int(nt), int(nt), th = 0. )
 
-            ampError[i][0] = abs( np.linalg.norm(y[0]) - np.linalg.norm(y[-1]) )
+            # ampError[i][0] = abs( np.linalg.norm(y[0]) - np.linalg.norm(y[-1]) )
 
-            phaseError[i][0] = abs( np.arctan(y[-1][1]/y[-1][0]) )
+            # phaseError[i][0] = abs( np.arctan(y[-1][1]/y[-1][0]) )
+
+            ampError[i][0] = abs(  0.5 * y[-1][1]**2 + 1 - np.cos(y[-1][0]) - E0  )
+
+            phaseError[i][0] = abs(   np.arctan(  y[-1][1]/np.sqrt( 1-np.cos(y[-1][0]) )  )   )
 
 
+            
             # Euler implicito
         
             y = ODE.theta( pd.simple, y0, tf/int(nt), int(nt), th = 1. )
 
-            ampError[i][1] = abs( np.linalg.norm(y[0]) - np.linalg.norm(y[-1]) )
+            # ampError[i][1] = abs( np.linalg.norm(y[0]) - np.linalg.norm(y[-1]) )
 
-            phaseError[i][1] = abs( np.arctan(y[-1][1]/y[-1][0]) )
+            # phaseError[i][1] = abs( np.arctan(y[-1][1]/y[-1][0]) )
 
-        
+            ampError[i][1] = abs(  0.5 * y[-1][1]**2 + 1 - np.cos(y[-1][0]) - E0  )
+
+            phaseError[i][1] = abs(   np.arctan(  y[-1][1]/np.sqrt( 1-np.cos(y[-1][0]) )  )   )
+
+
+            
 
             # Crank-Nicholson
         
             y = ODE.theta( pd.simple, y0, tf/int(nt), int(nt), th = 0.5 )
 
-            ampError[i][2] = abs( np.linalg.norm(y[0]) - np.linalg.norm(y[-1]) )
+            # ampError[i][2] = abs( np.linalg.norm(y[0]) - np.linalg.norm(y[-1]) )
 
-            phaseError[i][2] = abs( np.arctan(y[-1][1]/y[-1][0]) )
+            # phaseError[i][2] = abs( np.arctan(y[-1][1]/y[-1][0]) )
+
+            ampError[i][2] = abs(  0.5 * y[-1][1]**2 + 1 - np.cos(y[-1][0]) - E0  )
+
+            phaseError[i][2] = abs(   np.arctan(  y[-1][1]/np.sqrt( 1-np.cos(y[-1][0]) )  )   )
 
 
+            
+            
             # Runge-Kutta 4
         
             y = ODE.RK4( pd.simple, y0, tf/int(nt), int(nt) )
 
-            ampError[i][3] = abs( np.linalg.norm(y[0]) - np.linalg.norm(y[-1]) )
+            # ampError[i][3] = abs( np.linalg.norm(y[0]) - np.linalg.norm(y[-1]) )
 
-            phaseError[i][3] = abs( np.arctan(y[-1][1]/y[-1][0]) )
+            # phaseError[i][3] = abs( np.arctan(y[-1][1]/y[-1][0]) )
+
+            ampError[i][3] = abs(  0.5 * y[-1][1]**2 + 1 - np.cos(y[-1][0]) - E0  )
+
+            phaseError[i][3] = abs(   np.arctan(  y[-1][1]/np.sqrt( 1-np.cos(y[-1][0]) )  )   )
         
 
 
@@ -177,7 +202,7 @@ if __name__ == "__main__":
 
         axs[0].loglog( tf / tlist, ampError[:,3], label = 'Runge-Kutta')
 
-        axs[0].loglog( tf / tlist, tf / tlist, label = r'$O(h)$', linestyle = '--', color = 'k')
+        axs[0].loglog( tf / tlist, tf * ampError[0][0] * tlist[0] / (tlist * tf), label = r'$O(h)$', linestyle = '--', color = 'k')
 
         # axs[0].loglog( tf / tlist, (tf / tlist)**2, label = r'$O(h^2)$', linestyle = ':', color = 'k')
 

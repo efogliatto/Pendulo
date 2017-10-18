@@ -62,7 +62,7 @@ def theta( myfunc, y0, h, nt, **kwargs ):
             #     y_aux = y[i+1]
                 
             
-            for k in range(30):
+            for k in range(50):
                             
                 y[i+1] = y[i]   +   h * (1-th) * myfunc(y[i], **kwargs)   +   h * th * myfunc(y[i+1], **kwargs)
             
