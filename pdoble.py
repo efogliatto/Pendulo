@@ -25,7 +25,9 @@ if __name__ == "__main__":
 
     # Condiciones de simulacion
 
-    mode = 'animacion'
+    mode = 'simple'
+    
+    # mode = 'animacion'
 
     # mode = 'caos'              
 

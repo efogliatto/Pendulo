@@ -13,7 +13,7 @@ if __name__ == "__main__":
     
     y0 = np.zeros(2)
 
-    y0[0] = np.radians(0.1)
+    y0[0] = np.radians(2.5)
 
 
 
@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     tf = pd.simplePeriod( y0[0] )
 
-    orden = False
+    orden = True
 
 
 
